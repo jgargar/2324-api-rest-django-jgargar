@@ -1,4 +1,5 @@
 from django.contrib.auth.models import Group, User
+from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -28,12 +29,17 @@ class GroupViewSet(viewsets.ModelViewSet):
 class MarcaViewSet(viewsets.ModelViewSet):
     queryset = Marca.objects.all()
     serializer_class = MarcaSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     @action(detail=True, methods=['GET'])
-    def highlight(self):
-        snippet = self.get_object()
-        return Response(snippet.highlighted)
+    def listadoVehiculos(self, request, pk):
+        marca = get_object_or_404(Marca, pk=pk)
+        vehiculos = Vehiculo.objects.filter(marca=marca)
+        serializer = VehiculoSerializer(vehiculos, many=True, context={'request': request})
+        return Response(serializer.data)
+
 
 class VehiculoViewSet(viewsets.ModelViewSet):
     queryset = Vehiculo.objects.all()
     serializer_class = VehiculoSerializer
+    permission_classes = [permissions.IsAuthenticated]
