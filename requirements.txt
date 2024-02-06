@@ -3,6 +3,7 @@ djangorestframework
 django-environ
 pygments
 drf-spectacular
+django-filter
 
 #Postgres Requirement
 # sudo apt install python3-dev libpq-dev
