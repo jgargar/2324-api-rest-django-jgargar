@@ -3,13 +3,16 @@ from django.db import models
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
 
 class Usuario(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     debito = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
     def __str__(self):
-        return self.usuario.username
+        return self.user.username
+
 
 class Patinete(models.Model):
     TIPOS_CHOICES = [
@@ -26,6 +29,7 @@ class Patinete(models.Model):
 
     def __str__(self):
         return self.numero
+
 
 class Alquiler(models.Model):
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)

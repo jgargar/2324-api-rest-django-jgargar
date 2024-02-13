@@ -1,0 +1,8 @@
+//Meter datos desde la linea de comando
+python manage.py shell
+from patinetes.models import Usuario
+from django.contrib.auth.models import User
+me = User.objects.get(username='usuario1')
+Usuario.objects.create(debito=200, user=me)
+
+
